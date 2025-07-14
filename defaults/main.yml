@@ -9,6 +9,6 @@ s3fs:
       endpoint: "https://s3.amazonaws.com"
       accessKeyId: "accessKeyId"
       secretAccessKey: "secretAccessKey"
-      options: "nofail,allow_other,use_cache=/tmp,max_stat_cache_size=100000"
+      options: "allow_other,use_cache=/tmp,max_stat_cache_size=100000"
 
   add_to_fstab: true

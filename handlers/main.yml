@@ -6,6 +6,9 @@
 - name: Remount
   ansible.posix.mount:
     path: "{{ item.mountpoint }}"
-    state: remounted
+    src: "s3fs#{{ item.bucket }}"
+    fstype: fuse
+    opts: "_netdev,{{ item.options }},passwd_file={{ s3fs.passwd_file }},url={{ item.endpoint }}"
+    state: ephemeral
   with_items: "{{ s3fs.buckets }}"
   when: s3fs.buckets is defined and s3fs.add_to_fstab

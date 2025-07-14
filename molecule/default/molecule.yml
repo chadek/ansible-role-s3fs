@@ -16,7 +16,7 @@ provisioner:
   name: ansible
   config_options:
     defaults:
-      roles_path: "$MOLECULE_PROJECT_DIRECTORY/.."  
+      roles_path: "$MOLECULE_PROJECT_DIRECTORY/.."
   inventory:
     host_vars:
       s3fs:

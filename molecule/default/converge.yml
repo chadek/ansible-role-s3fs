@@ -14,4 +14,4 @@
   tasks:
     - name: "Include S3fs role"
       ansible.builtin.include_role:
-        name: "ansible-role-s3fs"
+        name: chadek.s3fs

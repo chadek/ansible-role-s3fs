@@ -1,0 +1,33 @@
+---
+- name: S3fs | Make sure the mount points of the buckets are present
+  ansible.builtin.file:
+    path: "{{ item.mountpoint }}"
+    mode: "{{ item.permission }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    state: directory
+  with_items: "{{ s3fs.buckets }}"
+
+- name: S3fs | Make sure the access keys of buckets are present
+  ansible.builtin.template:
+    src: passwd-s3fs.j2
+    dest: "{{ s3fs.passwd_file }}"
+    mode: "0600"
+    owner: "{{ ansible_user_id }}"
+  with_items: "{{ s3fs.buckets }}"
+
+
+- name: S3fs | Ensure mountpoints are in fstab using lineinfile
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    regexp: "^s3fs#{{ item.bucket }}[ \\t]+{{ item.mountpoint | regex_escape }}[ \\t]+fuse[ \\t]"
+    line: "s3fs#{{ item.bucket }} {{ item.mountpoint }} fuse _netdev,{{ item.options }},passwd_file={{ s3fs.passwd_file }},url={{ item.endpoint }} 0 0"
+    mode: "644"
+    create: true
+    state: present
+    insertafter: EOF
+  loop: "{{ s3fs.buckets }}"
+  when: s3fs.buckets is defined and s3fs.add_to_fstab
+  notify:
+    - Daemon reload service
+    - Remount

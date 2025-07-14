@@ -1,0 +1,9 @@
+---
+- name: S3fs | Update pkg manager cache
+  ansible.builtin.package:
+    update_cache: true
+
+- name: S3fs | Install s3fs
+  ansible.builtin.package:
+    name: s3fs
+    state: present

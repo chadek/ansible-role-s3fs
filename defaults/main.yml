@@ -1,0 +1,14 @@
+---
+s3fs:
+  passwd_file: /etc/.passwd-s3fs
+  buckets:
+    - mountpoint: /mnt/s3fs
+      permissions: "0755"
+      owner: "odoo"
+      bucket: s3fs
+      endpoint: "https://s3.amazonaws.com"
+      accessKeyId: "accessKeyId"
+      secretAccessKey: "secretAccessKey"
+      options: "nofail,allow_other,use_cache=/tmp,max_stat_cache_size=100000"
+
+  add_to_fstab: true

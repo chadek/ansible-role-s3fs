@@ -1,0 +1,38 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: s3fs
+    image: "geerlingguy/docker-debian12-ansible:latest"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      roles_path: "$MOLECULE_PROJECT_DIRECTORY/.."  
+  inventory:
+    host_vars:
+      s3fs:
+        s3fs:
+          passwd_file: /etc/.passwd-s3fs
+          buckets:
+            - mountpoint: /mnt
+              permission: "0755"
+              owner: "root"
+              group: "root"
+              bucket: noaa-goes18
+              endpoint: "https://s3.amazonaws.com"
+              accessKeyId: "random"
+              secretAccessKey: "stuff"
+              options: "nofail,allow_other,use_cache=/tmp,max_stat_cache_size=100000"
+
+          add_to_fstab: true
+verifier:
+  name: ansible

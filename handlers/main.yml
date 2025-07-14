@@ -1,0 +1,11 @@
+---
+- name: Daemon reload service
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Remount
+  ansible.posix.mount:
+    path: "{{ item.mountpoint }}"
+    state: remounted
+  with_items: "{{ s3fs.buckets }}"
+  when: s3fs.buckets is defined and s3fs.add_to_fstab

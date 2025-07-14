@@ -1,0 +1,6 @@
+---
+- name: S3fs | Include dependencies.yml
+  ansible.builtin.include_tasks: dependencies.yml
+
+- name: S3fs | Include mount.yml
+  ansible.builtin.include_tasks: mount.yml

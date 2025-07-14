@@ -1,0 +1,23 @@
+---
+galaxy_info:
+  role_name: s3fs
+  author: chadek
+  description: ansible role to mount S3fs in linux filesystem inspired by Aplyca.ansible-role-s3fs
+  company: Free Like a lancer
+  license: license GPL-3.0-only
+  min_ansible_version: "2.1"
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+        - bookworm
+        - trixie
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+        - noble
+
+  galaxy_tags:
+    - s3fs
+    - mount
